@@ -6,7 +6,6 @@ function ThemeProvider(props: any) {
   const [category, setCategory] = useState("");
   const [userInfo, setUserInfo] = useState({});
 
-
   const value = {
     category: category,
     setCategory: setCategory,

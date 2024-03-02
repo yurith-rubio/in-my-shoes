@@ -12,6 +12,7 @@ import SelectAnswer from './SelectAnswer.tsx';
 import ReadWorry from './ReadWorry.tsx';
 import GetEmail from './GetEmail.tsx';
 import NavBar from './NavBar.tsx';
+import Verification from './Verification.tsx';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/get-email" element={<GetEmail />}></Route>
           <Route path="/get-age" element={<GetAge />}></Route>
           <Route path="/get-info" element={<GetNicknameCountry />}></Route>
+          <Route path="/verification" element={<Verification />}></Route>
           <Route path="/wanna-help" element={<WantToHelp />}></Route>
           <Route path="/write-worry" element={<WriteWorry />}></Route>
           <Route path="/select-answer" element={<SelectAnswer />}></Route>
@@ -34,33 +36,6 @@ function App() {
       </ThemeProvider>
     </BrowserRouter>
   )
-
-  // const [count, setCount] = useState(0)
-
-  // return (
-  //   <>
-  //     <div>
-  //       <a href="https://vitejs.dev" target="_blank">
-  //         <img src={viteLogo} className="logo" alt="Vite logo" />
-  //       </a>
-  //       <a href="https://react.dev" target="_blank">
-  //         <img src={reactLogo} className="logo react" alt="React logo" />
-  //       </a>
-  //     </div>
-  //     <h1>Vite + React</h1>
-  //     <div className="card">
-  //       <button onClick={() => setCount((count) => count + 1)}>
-  //         count is {count}
-  //       </button>
-  //       <p>
-  //         Edit <code>src/App.tsx</code> and save to test HMR
-  //       </p>
-  //     </div>
-  //     <p className="read-the-docs">
-  //       Click on the Vite and React logos to learn more
-  //     </p>
-  //   </>
-  // )
 }
 
 export default App

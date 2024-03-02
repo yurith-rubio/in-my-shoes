@@ -3,10 +3,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "./ThemeContext.tsx";
 import useFetch from "./useFetch.tsx"
 
-class WorryInfo {
-    public worry: string = "";
-    public nickname: string = "";
-    public age: number = 0;
+// class WorryInfo {
+//     public worry: string = "";
+//     public nickname: string = "";
+//     public age: number = 0;
+// }
+
+type worry = {
+    worry: string;
+    nickname: string;
+    age: number;
 }
 
 function ReadWorry() {
@@ -14,7 +20,8 @@ function ReadWorry() {
     const value = useContext(ThemeContext);
     const location = useLocation();
     const id = location.state.id;
-    const [worryInfo, setWorryInfo] = useState<WorryInfo | null>(null);
+    // const [worryInfo, setWorryInfo] = useState<WorryInfo | null>(null);
+    const [worryInfo, setWorryInfo] = useState<worry | null>(null);
     const [answer, setAnswer] = useState("");
     const [allAnswers, setAllAnswers] = useState([]);
     const userInfo = value.userInfo;

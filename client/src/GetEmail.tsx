@@ -14,11 +14,18 @@ function GetEmail() {
     // const [loading, setLoading] = useState(false);
     const { post } = useFetch("/api");
 
-    async function handleSubmitForm(e : any) {
+    async function handleSubmitForm(e: React.FormEvent<HTMLFormElement> ): Promise<void> {
         e.preventDefault();
 
-        const data = await post("/users", { email }) as any[];
-        
+        class Data {
+            public id: number = 0;
+            public nickname: string = "";
+            public age: number = 0;
+            public country: string = "";
+            public email: string = "";
+        }
+
+        const data = await post("/users", { email }) as Data[];
         const user = data[0];
         if (user) {
             // Set the user info from the database
@@ -34,13 +41,13 @@ function GetEmail() {
                     email: email
                 }
             )
-            navigate("/get-age");
+            navigate("/verification");
         }   
     }
 
     return (
         <div>
-        <form onSubmit={handleSubmitForm} className='form-wrapper'>
+            <form onSubmit={handleSubmitForm} className='form-wrapper'>
             <div className="input-wrapper">
                 <div className="input-heading">My email:</div>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className='text-input' required/>

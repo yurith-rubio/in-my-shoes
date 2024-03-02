@@ -45,6 +45,10 @@ let db = new sqlite3.Database("../db/database.db", (err) => {
 
 db.run(`PRAGMA foreign_keys = ON;`);
 
+db.run(`
+  CREATE TABLE IF NOT EXISTS verification (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT, code TEXT);
+`)
+
 db.run(
   `
   CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, nickname TEXT, age INTEGER, country TEXT, email TEXT);
@@ -179,6 +183,45 @@ app.get("/api/load-answers/:id", (req, res) => {
   
 
 //POST REQUESTS
+app.post("/api/verification", (req, res) => {
+  if (req.body.email === undefined) {
+    res.status(400).json({ message: "email is required" });
+    return;
+  }
+
+  const code = Math.random().toString(36).substring(2, 8);
+  console.log("created verification code " + code + " for email " + req.body.email);
+
+  const mailOptions = {
+    from: 'iamyurith@gmail.com',
+    to: req.body.email,
+    subject: 'Please, verify your email address',
+    text: `Your verification code is: ${code}`
+  };
+
+  db.run(
+    `INSERT INTO verification(email, code) VALUES(?,?)`,
+    [req.body.email, code], (err) => {
+      if (err) {
+        console.log(err.message);
+        res.json({ error: err.message });
+        return;
+      }
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+          res.status(500).json({ message: "error while sending the code" });
+          return;
+        } else {
+          console.log('Code sent to: ' + req.body.email);
+        }
+
+        res.status(200).json({ message: "code sent" });
+      });
+    }
+  );
+});
+
 app.post("/api/users", (req, res) => {
   console.log("=== post user handler");
   console.log(req.body);
