@@ -4,6 +4,9 @@ The idea of this applicaton was inspired by Ray Dalio, who always advice to list
 
 With that to say, inmyshoes, is a platform for people to write a worry they may have of something that could happen some years ahead. If someone wants to give an advice to the worried person, they must be older than them and ideally have had the same worry before.
 
+### OpenAI use
+When writing a worry, the application conects with the API of OpenAi to create a summarize of the worry. Which later is shown on the worries overview.
+
 ### Preview app
 You can have a look [here](https://inmyshoes.space/) at the current version of the app which is still in development, so you may still find some bugs that need to be fix.
 
@@ -11,6 +14,7 @@ You can have a look [here](https://inmyshoes.space/) at the current version of t
 - Figma
 - React
 - Typescript
+- D3
 - NodeJs
 - Express
 - OpenAI
