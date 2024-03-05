@@ -1,24 +1,19 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ThemeContext } from './ThemeContext';
 import useFetch from './useFetch';
+import { useNavigate } from 'react-router';
 
 function verification() {
     const value = useContext(ThemeContext);
+    const navigate = useNavigate();
     const userInfo = value.userInfo;
     const { post } = useFetch("/api");
     const sent = useRef(false);
-
-    function handleSubmitForm(event: any) {
-        event.preventDefault();
-        const verificationCode = event.target[0].value + event.target[1].value + event.target[2].value + event.target[3].value + event.target[4].value;
-
-        console.log(typeof verificationCode)
-        // post("/verify", { email: userInfo.email, code: verificationCode });
-    }
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         if (sent.current === false) {
-            post("/verification", { email: userInfo.email });
+            post("/send-email", { email: userInfo.email });
         }
 
         return () => {
@@ -36,8 +31,6 @@ function verification() {
             }
         });
 
-        console.log(allFilled);
-
         if (allFilled) {
             document.querySelector("#btn-verification")?.removeAttribute("disabled");
         } else {
@@ -46,6 +39,7 @@ function verification() {
 
         const button = document.querySelector("#btn-verification");
         (button as HTMLElement).focus();
+
     }
 
     function focusElement(element: string) {
@@ -56,9 +50,27 @@ function verification() {
         checkIfAllFieldsAreFilled();
     }
 
+    function handleSubmitForm(event: any) {
+        event.preventDefault();
+        const verificationCode = event.target[0].value + event.target[1].value + event.target[2].value + event.target[3].value + event.target[4].value;
+
+        // post("/verify", { email: userInfo.email, code: verificationCode });
+        post("/verify", { email: userInfo.email, code: verificationCode })
+            .then((data: any) => {
+                if (data.error) {
+                    console.log("error: ")
+                    setError(true);
+                    return
+                }
+                setError(false);
+                navigate("/get-info");
+            })
+    }
+
     return (
         <div>
             <h1>We sent an email to: {userInfo.email}</h1>
+            <p>{ error ? "The code does not match, please check if you wrote the code properly and try again" : ""}</p>
             <form onSubmit={handleSubmitForm}>
                 <input className='input-verification' type="text" id="verification-one" name="one" maxLength={1} onKeyUp={ () => focusElement("verification-two") } />
                 <input className='input-verification' type="text" id="verification-two" name="two" maxLength={1}  onKeyUp={() => focusElement("verification-three")} />

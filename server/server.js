@@ -180,17 +180,28 @@ app.get("/api/load-answers/:id", (req, res) => {
     res.json(rows);
   });
 });
-  
+
 
 //POST REQUESTS
-app.post("/api/verification", (req, res) => {
+app.post("/api/send-email", (req, res) => {
   if (req.body.email === undefined) {
     res.status(400).json({ message: "email is required" });
     return;
   }
+  let code = "";
 
-  const code = Math.random().toString(36).substring(2, 8);
-  console.log("created verification code " + code + " for email " + req.body.email);
+  function generatecode() {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters.charAt(randomIndex);
+    }
+    return code;
+  }
+
+  // Example usage
+  code = generatecode();
 
   const mailOptions = {
     from: 'iamyurith@gmail.com',
@@ -212,14 +223,34 @@ app.post("/api/verification", (req, res) => {
           console.log(error);
           res.status(500).json({ message: "error while sending the code" });
           return;
-        } else {
-          console.log('Code sent to: ' + req.body.email);
         }
-
-        res.status(200).json({ message: "code sent" });
+        console.log('Email sent: ');
+        console.log(code);
+        res.status(200).json({code: code});
       });
     }
   );
+});
+
+app.post("/api/verify", (req, res) => {
+  console.log("=== verify that the email and code match");
+  const email = req.body.email;
+  const codeSubmited = req.body.code;
+  db.all("select code from verification where email = ? order by id desc limit 1", [email], (err, rows) => {
+    if (err) {
+      console.log("=== error getting user by email");
+      res.status(500);
+      return;
+    }
+    if (codeSubmited === rows[0].code) {
+      console.log("=== the code matches");
+      res.status(200).json({});
+    } else {
+      res.status(500).json({ error: "the code does not match" });
+    }
+  });
+
+  
 });
 
 app.post("/api/users", (req, res) => {

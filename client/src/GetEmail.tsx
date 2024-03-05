@@ -17,32 +17,39 @@ function GetEmail() {
     async function handleSubmitForm(e: React.FormEvent<HTMLFormElement> ): Promise<void> {
         e.preventDefault();
 
-        class Data {
-            public id: number = 0;
-            public nickname: string = "";
-            public age: number = 0;
-            public country: string = "";
-            public email: string = "";
-        }
+        // class Data {
+        //     public id: number = 0;
+        //     public nickname: string = "";
+        //     public age: number = 0;
+        //     public country: string = "";
+        //     public email: string = "";
+        // }
 
-        const data = await post("/users", { email }) as Data[];
-        const user = data[0];
-        if (user) {
-            // Set the user info from the database
-            console.log("this user already exists");
-            setUserInfo(user);
-            navigate("/write-worry", { state: { new_user: false }});
-        } else {
-            console.log("this is a new user");
-            // Set the user info from the form
-            setUserInfo(
-                {
-                    ...userInfo,
-                    email: email
-                }
-            )
-            navigate("/verification");
-        }   
+        // const data = await post("/users", { email }) as Data[];
+        // const user = data[0];
+        // if (user) {
+        //     // Set the user info from the database
+        //     console.log("this user already exists");
+        //     setUserInfo(user);
+        //     navigate("/write-worry", { state: { new_user: false }});
+        // } else {
+        //     console.log("this is a new user");
+        //     // Set the user info from the form
+        //     setUserInfo(
+        //         {
+        //             ...userInfo,
+        //             email: email
+        //         }
+        //     )
+        //     navigate("/verification");
+        // }   
+        setUserInfo(
+            {
+                ...userInfo,
+                email: email
+            }
+        )
+        navigate("/verification");
     }
 
     return (
@@ -55,7 +62,7 @@ function GetEmail() {
                 {/* disabled={loading} - add later */}
             <button type="submit"  className='btn-primary btn-get-info'>
                 <div className='btn-border'></div>
-                Get Email
+                Verify email
             </button>
         </form>
         {/* {error && <p style={{ color: "red" }}>{error}</p>}

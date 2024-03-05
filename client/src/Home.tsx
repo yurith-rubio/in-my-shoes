@@ -1,23 +1,26 @@
 import logo from '/logo_ims.svg';
 // import illustration from '/illustration_home.png';
 import { NavLink } from "react-router-dom"
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ThemeContext } from "./ThemeContext.tsx";
-import { InView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 
 function Home() {
     const value = useContext(ThemeContext);
     const setCategory = value.setCategory;
 
-    const [inView, setInView] = useState(false);
+    const [ref, inView] = useInView({
+        /* Optional options */
+        threshold: 0,
+    });
 
     return (
         <>
-            {/* <section id="Home" inview={inView}>
-                <InView as="div" onChange={setInView}>
-                    <img src={logo} className={inView ? "logo-intro logo-animation" : "logo-intro"} alt="In my shoes logo" />
-                </InView>
-            </section> */}
+            <section id="Home">
+                <div ref={ref}>
+                    <img src={logo} className={inView ? "logo-intro up-animation" : "logo-intro"} alt="In my shoes logo" />
+                </div>
+            </section>
             <section id='Information' className='container column'>
                 <div className='content-wrapper'>
                     <div className='header'>

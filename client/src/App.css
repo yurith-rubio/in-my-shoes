@@ -139,11 +139,13 @@ section.section, section > .rich-text, section > .form-wrapper{
 #NavBar .logo{
   cursor: pointer;
 }
-.logo-intro.up-animation{
+.logo-intro{
   position: relative;
-  animation: logo-animation;
-  animation-duration: 0.5s;
-  animation-fill-mode: forwards;
+  top: 40px;
+}
+.logo-intro.up-animation{
+  animation: up-animation;
+  animation-duration: .5s;
 }
 /* Borders */
 .white-border{
@@ -273,10 +275,16 @@ input[type="submit"]{
 }
 @keyframes up-animation {
   from {
-    top: 20px;
+    position: relative;
+    top: 0px;
+    opacity: 0;
+    /* transform: translateY(20px); */
   }
   to {
-    top: 0px;
+    position: relative;
+    top: 40px;
+    opacity: 1;
+    /* transform: translateY(0px); */
   }
 }
 
