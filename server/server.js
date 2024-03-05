@@ -266,7 +266,12 @@ app.post("/api/users", (req, res) => {
     }
     console.log("=== user by email");
     console.log(rows);
-    res.status(200).json(rows);
+
+    if (rows.length > 0) {
+      res.status(200).json(rows[0]);
+    } else {
+      res.status(200).json({});
+    }
   })
 });
 
@@ -322,22 +327,35 @@ app.post("/api/submit-answer", (req, res) => {
 
 //PUT REQUEST
 app.put("/api/users", (req, res) => {
-  console.log("=== put user handler");
+  console.log("=== adding a new user if it does not exist yet");
   // console.log(req.body);
   const user = req.body;
-  db.run(
-    `INSERT INTO users(nickname, age, country, email) VALUES(?,?,?,?)`,
-    [user.nickname, user.age, user.country, user.email],
-    function (err, rows) {
-      if (err) {
-        console.log(err.message);
-        res.json({ error: err.message });
-        return;
-      }
-      // get the last insert id
-      res.status(200).json(this.lastID);
+  db.all("select * from users where email = ?", [user.email], (err, rows) => {
+    if (err) {
+      console.log("=== error getting user by email");
+      res.status(500);
+      return;
     }
-  );
+    if (rows.length > 0) {
+      console.log("=== user already exists");
+      res.status(200).json(rows[0].id);
+      return;
+    } else {
+      db.run(
+        `INSERT INTO users(nickname, age, country, email) VALUES(?,?,?,?)`,
+        [user.nickname, user.age, user.country, user.email],
+        function (err, rows) {
+          if (err) {
+            console.log(err.message);
+            res.json({ error: err.message });
+            return;
+          }
+          // get the last insert id
+          res.status(200).json(this.lastID);
+        }
+      );
+    }
+  });
 });
 
 // PUT WORRIES ADDING A SUMMARY FROM CHAT GPT

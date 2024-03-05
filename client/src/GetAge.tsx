@@ -1,24 +1,20 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "./ThemeContext.tsx";
-
-enum Category {
-    worry = "worry",
-    answer = "answer"
-}
+import { IContextValue } from "./typings/IContextValue";
 
 function GetAge() {
     const navigate = useNavigate();
-    const value = useContext(ThemeContext);
-    const category: Category = value.category;
+    const value = useContext<IContextValue>(ThemeContext);
+    const category = value.category;
     const userInfo = value.userInfo;
     const setUserInfo = value.setUserInfo;
-    const [age, setAge] = useState(0);
     
+    console.log("userInfo in GetAge: ")
+    console.log(userInfo)
     function handleSubmitForm(event: any) {
         event.preventDefault();
         if (category === "worry") {
-            // navigate("/get-info", { state: { new_user: true } })
             navigate("/get-info")
         } else {
             console.log("go to get info for answer")
@@ -28,22 +24,22 @@ function GetAge() {
 
     useEffect(() => {
         if (category === "worry") {
-            setAge(10);
+            setUserInfo({ ...userInfo, age: 10});
         } else {
-            setAge(20);
+            setUserInfo({ ...userInfo, age: 20});
         }
     }, []);
     
     useEffect(() => {
-        setUserInfo({ ...userInfo, age: age });
-    }, [age]);
+        setUserInfo({ ...userInfo, age: userInfo.age });
+    }, [userInfo.age]);
 
     return (
         <div>
             <form action="" className='form-wrapper' onSubmit={(e) => handleSubmitForm(e)}>
                 <div className="input-wrapper">
                     <div className="input-heading">I am in my:</div>
-                    <select id="age-id" name="age" value={age} onChange={(e) => setAge(parseInt(e.target.value, 10))} className='info-selector'>
+                    <select id="age-id" name="age" value={userInfo.age} onChange={(e) => setUserInfo({...userInfo, age: parseInt(e.target.value, 10)})} className='info-selector'>
                         {category === "worry" &&
                             <option className='age-range' value={10}>10's</option>
                         }

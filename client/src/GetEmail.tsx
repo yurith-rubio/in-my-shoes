@@ -1,55 +1,18 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import { ThemeContext } from "./ThemeContext.tsx";
-import useFetch from "./useFetch.tsx"
+// import { ThemeContext } from "./ThemeContext.tsx";
 
 function GetEmail() {
     const navigate = useNavigate();
-    const value = useContext(ThemeContext);
-    const userInfo = value.userInfo;
-    const setUserInfo = value.setUserInfo;
     const [email, setEmail] = useState("");
     // const [error, setError] = useState("");
     // const [success, setSuccess] = useState("");
     // const [loading, setLoading] = useState(false);
-    const { post } = useFetch("/api");
+    
 
     async function handleSubmitForm(e: React.FormEvent<HTMLFormElement> ): Promise<void> {
         e.preventDefault();
-
-        // class Data {
-        //     public id: number = 0;
-        //     public nickname: string = "";
-        //     public age: number = 0;
-        //     public country: string = "";
-        //     public email: string = "";
-        // }
-
-        // const data = await post("/users", { email }) as Data[];
-        // const user = data[0];
-        // if (user) {
-        //     // Set the user info from the database
-        //     console.log("this user already exists");
-        //     setUserInfo(user);
-        //     navigate("/write-worry", { state: { new_user: false }});
-        // } else {
-        //     console.log("this is a new user");
-        //     // Set the user info from the form
-        //     setUserInfo(
-        //         {
-        //             ...userInfo,
-        //             email: email
-        //         }
-        //     )
-        //     navigate("/verification");
-        // }   
-        setUserInfo(
-            {
-                ...userInfo,
-                email: email
-            }
-        )
-        navigate("/verification");
+        navigate("/verification", { state: { email: email }})
     }
 
     return (

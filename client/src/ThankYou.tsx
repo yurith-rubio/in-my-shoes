@@ -1,8 +1,8 @@
 function ThankYou() {
   return (
-    <div className="ThankYou">
+    <div className="ThankYou center">
       <h1>Thank you!</h1>
-      <p>We appreciate your feedback.</p>
+      <h2>We appreciate your feedback.</h2>
     </div>
   );
 }

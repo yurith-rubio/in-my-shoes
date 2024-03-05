@@ -36,9 +36,6 @@ function Home() {
                             where people can share their experiences and learn from each other.
                             
                         </p>
-                        {/* <div className='illustration-wrapper'>
-                            <img src={illustration} className="shoes-illustration" alt="shoe illustration" />
-                        </div> */}
                     </div>
                 </div>
             </section>
@@ -58,7 +55,6 @@ function Home() {
                             Wanna help others with your learnings?
                             <div className='btn-border'></div>
                         </div>
-                        
                     </NavLink>
                 </div>
             </section>

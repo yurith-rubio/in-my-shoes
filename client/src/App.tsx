@@ -11,8 +11,9 @@ import ThankYou from './ThankYou.tsx';
 import SelectAnswer from './SelectAnswer.tsx';
 import ReadWorry from './ReadWorry.tsx';
 import GetEmail from './GetEmail.tsx';
-import NavBar from './NavBar.tsx';
+import NavBar from './components/NavBar.tsx';
 import Verification from './Verification.tsx';
+import Footer from './Footer.tsx';
 
 function App() {
 
@@ -33,8 +34,10 @@ function App() {
           <Route path="/read-worry" element={<ReadWorry />} />
           <Route path="*" element={<NothingHere />} />
         </Routes>
+        <Footer />
       </ThemeProvider>
     </BrowserRouter>
+    
   )
 }
 

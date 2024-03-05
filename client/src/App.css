@@ -8,14 +8,17 @@ body{
   margin: auto;
 }
 
-section{
+section, .section{
+  min-height: 100vh;
+}
+
+section, .section{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   width: 100%;
 }
-section.column{
+.column{
   flex-direction: column;
 }
 
@@ -71,6 +74,8 @@ section.section, section > .rich-text, section > .form-wrapper{
 }
 .center{
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 /* Buttons */
 .btn-primary {
@@ -88,10 +93,20 @@ section.section, section > .rich-text, section > .form-wrapper{
   text-transform: uppercase;
   font-weight: 900;
   letter-spacing: 2px;
+  opacity: 1;
 }
-.btn-primary:hover{
+.btn-primary:hover:not([disabled]){
   background-color: #392424;
   color: #ffffff;
+}
+.btn-primary:hover[disabled], 
+.btn-primary:focus{
+  border: #392424 3px solid;
+  outline: 0;
+}
+.btn-primary[disabled]{
+  opacity: .7;
+  cursor: not-allowed;
 }
 
 .btn-border{
@@ -104,13 +119,13 @@ section.section, section > .rich-text, section > .form-wrapper{
   border-bottom: 3px solid #fff;
   z-index: -1;
 }
-.btn-primary:hover{
+.btn-primary:hover:not([disabled]){
   animation: btn-animation;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
   /* border-bottom: 5px solid red; */
 }
-.btn-primary:hover .btn-border{
+.btn-primary:hover:not([disabled]) .btn-border{
   animation: border-animation;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
@@ -142,10 +157,12 @@ section.section, section > .rich-text, section > .form-wrapper{
 .logo-intro{
   position: relative;
   top: 40px;
+  opacity: 0;
 }
 .logo-intro.up-animation{
   animation: up-animation;
   animation-duration: .5s;
+  animation-fill-mode: forwards;
 }
 /* Borders */
 .white-border{
@@ -166,9 +183,14 @@ section.section, section > .rich-text, section > .form-wrapper{
   height: 50px;
   border-style: none;
 }
-input.text-input, select.info-selector{
-  font-size: 20px;
+input.text-input, 
+select.info-selector{
   padding-left: 15px;
+}
+input.text-input, 
+select.info-selector,
+input.input-verification{
+  font-size: 20px;
   text-align: center;
   font-weight: 900;
   letter-spacing: 2px;
@@ -187,6 +209,7 @@ input[type="submit"]{
   text-transform: lowercase;
   letter-spacing: 2px;
   text-align: center;
+  font-weight: bold;
 }
 .input-wrapper{
   display: flex;
@@ -250,6 +273,9 @@ input[type="submit"]{
 }
 .header{
   background-color: #392424;
+}
+.header *{
+  color: #ffffff;
 }
 
 @keyframes btn-animation {
