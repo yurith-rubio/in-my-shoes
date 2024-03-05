@@ -13,6 +13,7 @@ You can have a look [here](https://inmyshoes.space/) at the current version of t
 - Typescript
 - NodeJs
 - Express
+- OpenAI
 - sqlite
 - SQL
 - Docker
